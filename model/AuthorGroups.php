@@ -5,7 +5,7 @@
             id_travel int NOT NULL,
             PRIMARY KEY (id_author, id_travel),
             FOREIGN KEY (id_author) REFERENCES Authors(id_author),
-            FOREIGN KEY (id_travel) REFERENCES Travels(id_travel),
+            FOREIGN KEY (id_travel) REFERENCES Travels(id_travel)
         );
     */
     class AuthorGroups {

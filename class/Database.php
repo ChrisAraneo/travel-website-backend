@@ -1,18 +1,23 @@
 <?
+    include(dirname(__FILE__).'/../secure/config.php');
+
     class Database {
         private $host = null;
         private $dbname = null;
         private $username = null;
+        private $password = null;
         private $conn = null;
 
-        public function __construct($host, $dbname, $username, $password) {
-            $this->host = $host;
-            $this->dbname = $dbname;
-            $this->username = $username;
-            $this->password = $password;
+        public function __construct() {
+            $config = new Config();
+
+            $this->host = $this->config->DB_HOST;
+            $this->dbname = $this->config->DB_DBNAME;
+            $this->username = $this->config->DB_USERNAME;
+            $this->password = $this->config->DB_PASSWORD;
         }
 
-        private function connect() {
+        public function connect() {
             $this->conn = null;
 
             try {

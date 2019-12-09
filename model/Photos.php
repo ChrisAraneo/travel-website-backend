@@ -5,7 +5,7 @@
             id_travel int NOT NULL,
             filename varchar(255),
             PRIMARY KEY (id_photo),
-            FOREIGN KEY (id_travel) REFERENCES Travels(id_travel),
+            FOREIGN KEY (id_travel) REFERENCES Travels(id_travel)
         );
     */
     class Photos {

@@ -1,7 +1,7 @@
 <?
     class Login {
 
-        private function startSession() {
+        private static function startSession() {
             if (session_status() == PHP_SESSION_NONE) {
                 session_start();
                 
@@ -9,42 +9,34 @@
             }
         }
 
-        private function destroySession() {
+        private static function destroySession() {
             if (session_status() != PHP_SESSION_NONE) {
                 session_unset();
                 session_destroy();
             }
         }
 
-        public function logIn($conn, $username, $password) {
-            $this->startSession();
+        public static function loginUser($conn, $username, $password) {
+            Login::startSession();
 
             $result = Users::getUser($conn, $username);
-            $correct_hash = null;
-
-            if($result->rowCount() > 0) {
-                while($row = $result->fetch(PDO::FETCH_ASSOC)) {
-                    $correct_hash = $row['password'];
-                }
-            } else {
-                $this->logOut();
-                return false;
-            }
+            $row = $result[0];
+            $correct_hash = $row['password'];
 
             if(password_verify($password, $correct_hash)) {
                 $_SESSION['login'] == $username;
                 return true;
             } else {
-                $this->logOut();
+                Login::logOut();
                 return false;
             }
         }
 
-        public function logOut() {
-            $this->destroySession();
+        public static function logoutUser() {
+            Login::destroySession();
         }
 
-        public function isLogged() {
+        public static function isLogged() {
             if (session_status() == PHP_SESSION_NONE) {
                 return false;
             } else if($_SESSION['login'] != false) {
@@ -53,7 +45,7 @@
             return false;
         }
 
-        public function isLoggedAsAdmin() {
+        public static function isLoggedAsAdmin() {
             if (session_status() == PHP_SESSION_NONE) {
                 return false;
             } else if($_SESSION['login'] == 'admin') {

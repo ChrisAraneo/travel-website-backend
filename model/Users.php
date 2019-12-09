@@ -3,7 +3,7 @@
         CREATE TABLE Users (
             id_user int NOT NULL AUTO_INCREMENT,
             username varchar(255) NOT NULL,
-            password varchar(255) NOT NULL
+            password varchar(255) NOT NULL,
             PRIMARY KEY (id_user)
         );
     */
@@ -15,7 +15,21 @@
             $statement = $conn->prepare($query);
             $statement->execute();
 
-            return $statement;
+            $array = array();
+
+            if($statement->rowCount() > 0) {
+                while($row = $statement->fetch(PDO::FETCH_ASSOC)) {
+                    extract($row);
+                    $item = array(
+                        'id_user' => $id_travel,
+                        'username' => $username,
+                        'password' => $password
+                    );
+                    array_push($array, $item);
+                }
+            }
+            
+            return $array;
         }
 
         public static postUser($conn, $username, $password) {

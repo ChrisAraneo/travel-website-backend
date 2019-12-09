@@ -1,5 +1,6 @@
 <?
-    include('../../class/Main.php');
+    include(dirname(__FILE__).'/../../class/Login.php');
+    include(dirname(__FILE__).'/../../class/Database.php');
 
     header('Access-Control-Allow-Origin: *');
     header('Content-Type: application/json');
@@ -8,10 +9,25 @@
         $username = $_POST["username"];
         $password = $_POST["password"];
 
-        $main = new Main();
-        echo $main->postLogin();
+        $database = new Database();
+        $conn = $database->connect();
+
+        Login::logoutUser();
+        Login::loginUser($conn, $username, $password);
+
+        if(Login::isLogged() == true) {
+            echo json_encode(array(
+                'success' => true,
+                'message' => 'Successfully logged in'
+            ));
+        } else {
+            echo json_encode(array(
+                'success' => false,
+                'message' => 'Wrong login credentials'
+            ));
+        }
     } else {
-        return json_encode(array(
+        echo json_encode(array(
             'success' => false,
             'message' => 'Use POST method'
         ));
