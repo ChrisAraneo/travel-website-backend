@@ -6,7 +6,6 @@
         private static function startSession() {
             if (session_status() == PHP_SESSION_NONE) {
                 session_start();
-                
                 $_SESSION['login'] = false;
             }
         }
@@ -35,7 +34,12 @@
         }
 
         public static function logoutUser() {
-            Login::destroySession();
+            if (session_status() != PHP_SESSION_NONE) {
+                Login::destroySession();
+                return 'Logged out';
+            } else {
+                return 'You are already logged out';
+            }
         }
 
         public static function isLogged() {
