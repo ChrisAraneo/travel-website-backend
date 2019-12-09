@@ -1,4 +1,6 @@
 <?
+    include(dirname(__FILE__).'/../model/Users.php');
+
     class Login {
 
         private static function startSession() {
@@ -27,7 +29,7 @@
                 $_SESSION['login'] == $username;
                 return true;
             } else {
-                Login::logOut();
+                Login::logoutUser();
                 return false;
             }
         }
@@ -38,11 +40,12 @@
 
         public static function isLogged() {
             if (session_status() == PHP_SESSION_NONE) {
-                return false;
+                return "You need to be logged in. Enable cookies - can't provide session";
             } else if($_SESSION['login'] != false) {
                 return true;
+            } else {
+                return "You are not logged in";
             }
-            return false;
         }
 
         public static function isLoggedAsAdmin() {

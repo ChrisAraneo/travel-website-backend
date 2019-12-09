@@ -11,10 +11,10 @@
         public function __construct() {
             $config = new Config();
 
-            $this->host = $this->config->DB_HOST;
-            $this->dbname = $this->config->DB_DBNAME;
-            $this->username = $this->config->DB_USERNAME;
-            $this->password = $this->config->DB_PASSWORD;
+            $this->host = $config->DB_HOST;
+            $this->dbname = $config->DB_DBNAME;
+            $this->username = $config->DB_USERNAME;
+            $this->password = $config->DB_PASSWORD;
         }
 
         public function connect() {

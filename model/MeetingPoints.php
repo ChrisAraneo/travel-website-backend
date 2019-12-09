@@ -8,15 +8,13 @@
         );
     */
     class MeetingPoints {
-        public static postMeetingPoint($conn, $name, $address) {
+        public static function postMeetingPoint($conn, $name, $address) {
             $query = 'INSERT INTO MeetingPoints (name, address) VALUES ('
             . '\'' . $name . '\', '
             . '\'' . $address . '\');';
 
             $statement = $conn->prepare($query);
             $statement->execute();
-
-            return $statement;
         }
     }
  ?>

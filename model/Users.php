@@ -9,8 +9,8 @@
     */
 
     class Users {
-        public static getUser($conn, $username) {
-            $query = 'SELECT * FROM Users WHERE username = ' . $username . ';' 
+        public static function getUser($conn, $username) {
+            $query = 'SELECT * FROM Users WHERE username = \'' . $username . '\';';
 
             $statement = $conn->prepare($query);
             $statement->execute();
@@ -21,7 +21,7 @@
                 while($row = $statement->fetch(PDO::FETCH_ASSOC)) {
                     extract($row);
                     $item = array(
-                        'id_user' => $id_travel,
+                        'id_user' => $id_user,
                         'username' => $username,
                         'password' => $password
                     );
@@ -32,7 +32,7 @@
             return $array;
         }
 
-        public static postUser($conn, $username, $password) {
+        public static function postUser($conn, $username, $password) {
             $hash = password_hash($password, PASSWORD_DEFAULT);
 
             $query = 'INSERT INTO Users (username, password) VALUES ('
@@ -41,8 +41,6 @@
 
             $statement = $conn->prepare($query);
             $statement->execute();
-
-            return $statement;
         }
     }
 ?>

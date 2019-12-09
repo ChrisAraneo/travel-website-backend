@@ -7,7 +7,8 @@
     header('Content-Type: application/json');
 
     if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-        if(Login::isLogged() == true) {
+        $isLogged = Login::isLogged();
+        if($isLogged == true) {
             $database = new Database();
             $conn = $database->connect();
 
@@ -19,7 +20,7 @@
         } else {
             echo json_encode(array(
                 'success' => false,
-                'message' => 'Not logged'
+                'message' => $isLogged
             ));
         }
     } else {
