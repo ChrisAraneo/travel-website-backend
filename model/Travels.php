@@ -1,4 +1,7 @@
 <?
+    include(dirname(__FILE__).'/Authors.php');
+    include(dirname(__FILE__).'/MeetingPoints.php');
+
     /*
         CREATE TABLE Travels (
             id_travel int NOT NULL AUTO_INCREMENT,
@@ -46,8 +49,14 @@
             return $array;
         }
 
-        public static function postTravel($conn, $title, $location, $date, $hour, $meetingpoint, $latitude, $longitude, $description) {
-            $query = 'INSERT INTO Travels (title, location, date, hour, id_meetingpoint, latitude, longitude, description, photos) VALUES ('
+        public static function postTravel($conn, $title, $location, $date, $hour, $id_meetingpoint, $latitude, $longitude, $description) {
+            // CHECKING IF MEETINGPOINT EXIST
+            if(sizeof(MeetingPoints::getMeetingPoint($conn, $id_meetingpoint) <= 1) {
+                return "Meeting point ". $id_meetingpoint . " doesn't exist in database";
+            }
+
+            // ADDING TRAVEL TO DATABASE
+            $query = 'INSERT INTO Travels (title, location, date, hour, id_meetingpoint, latitude, longitude, description) VALUES ('
             . '\'' . $title . '\', '
             . '\'' . $location . '\', '
             . '\'' . $date . '\', '
@@ -59,8 +68,6 @@
 
             $statement = $conn->prepare($query);
             $statement->execute();
-
-            return $statement;
         }
     }
 ?>

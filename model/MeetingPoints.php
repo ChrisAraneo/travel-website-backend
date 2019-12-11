@@ -8,6 +8,29 @@
         );
     */
     class MeetingPoints {
+        public static function getMeetingPoint($conn, $id_meetingpoint) {
+            $query = 'SELECT * FROM MeetingPoints WHERE id_meetingpoint = ' . $id_meetingpoint . ';';
+
+            $statement = $conn->prepare($query);
+            $statement->execute();
+
+            $array = array();
+
+            if($statement->rowCount() > 0) {
+                while($row = $statement->fetch(PDO::FETCH_ASSOC)) {
+                    extract($row);
+                    $item = array(
+                        'id_meetingpoint' => $meetingpoint,
+                        'name' => $name,
+                        'address' => $address
+                    );
+                    array_push($array, $item);
+                }
+            }
+            
+            return $array;
+        }
+
         public static function postMeetingPoint($conn, $name, $address) {
             $query = 'INSERT INTO MeetingPoints (name, address) VALUES ('
             . '\'' . $name . '\', '
