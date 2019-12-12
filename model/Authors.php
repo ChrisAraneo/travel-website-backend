@@ -54,7 +54,7 @@
             return $array;
         }
 
-        public static postAuthor($conn, $firstname, $lastname) {
+        public static function postAuthor($conn, $firstname, $lastname) {
             $query = 'INSERT INTO Authors (firstname, lastname) VALUES ('
             . '\'' . $firstname . '\', '
             . '\'' . $lastname . '\');';

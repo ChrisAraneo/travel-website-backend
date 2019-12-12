@@ -19,6 +19,34 @@
     */
 
     class Travels {
+        public static function getTravel($conn, $id_travel) {
+            $query = 'SELECT * FROM Travels WHERE id_travel = ' . $id_travel . ';';
+
+            $statement = $conn->prepare($query);
+            $statement->execute();
+
+            $array = array();
+
+            if($statement->rowCount() > 0) {
+                while($row = $statement->fetch(PDO::FETCH_ASSOC)) {
+                    extract($row);
+                    $item = array(
+                        'id_travel' => $id_travel,
+                        'title' => $title,
+                        'location' => $location,
+                        'date' => $date,
+                        'hour' => $hour,
+                        'id_meetingpoint' => $id_meetingpoint,
+                        'latitude' => $latitude,
+                        'longitude' => $longitude,
+                        'description' => $description
+                    );
+                    array_push($array, $item);
+                }
+            }
+            
+            return $array;
+        }
 
         public static function getTravels($conn) {
             $query = 'SELECT * FROM Travels;';
@@ -39,7 +67,7 @@
                         'hour' => $hour,
                         'id_meetingpoint' => $id_meetingpoint,
                         'latitude' => $latitude,
-                        'lingitude' => $longitude,
+                        'longitude' => $longitude,
                         'description' => $description
                     );
                     array_push($array, $item);
@@ -51,7 +79,7 @@
 
         public static function postTravel($conn, $title, $location, $date, $hour, $id_meetingpoint, $latitude, $longitude, $description) {
             // CHECKING IF MEETINGPOINT EXIST
-            if(sizeof(MeetingPoints::getMeetingPoint($conn, $id_meetingpoint) <= 1) {
+            if(sizeof(MeetingPoints::getMeetingPoint($conn, $id_meetingpoint)) < 1) {
                 return "Meeting point ". $id_meetingpoint . " doesn't exist in database";
             }
 
@@ -68,6 +96,8 @@
 
             $statement = $conn->prepare($query);
             $statement->execute();
+
+            return true;
         }
     }
 ?>

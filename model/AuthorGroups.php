@@ -9,7 +9,18 @@
         );
     */
     class AuthorGroups {
-        public static postAuthorToGroup($conn, $id_author, $id_travel) {
+        public static function postAuthorToGroup($conn, $id_author, $id_travel) {
+            // CHECKING IF TRAVEL EXIST
+            if(sizeof(Travels::getTravel($conn, $id_tarvel)) < 1) {
+                return "Travel ". $id_travel . " doesn't exist in database";
+            }
+
+            // CHECKING IF AUTHOR EXIST
+            if(sizeof(Authors::getAuthor($conn, $id_author)) < 1) {
+                return "Author ". $id_author . " doesn't exist in database";
+            }
+
+            // ADDING AUTHORGROUPS RECORD
             $query = 'INSERT INTO AuthorGroups ($id_author, $id_travel) VALUES ('
             . '\'' . $id_author . '\', '
             . '\'' . $id_travel . '\');';
@@ -17,7 +28,7 @@
             $statement = $conn->prepare($query);
             $statement->execute();
 
-            return $statement;
+            return true;
         }
     }
  ?>
