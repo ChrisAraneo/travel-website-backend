@@ -1,25 +1,75 @@
 <?
-    // TITLE
-    // LOCATION
-    // DATE
-    // HOUR
-    // ID_MEETINGPOINT
-    // LATITUDE
-    // LONGITUDE
-    // DESCRIPTION
-    // PHOTOS
-    // AUTHORS
+    include(dirname(__FILE__).'/../../class/Login.php');
+    include(dirname(__FILE__).'/../../class/Database.php');
+    include(dirname(__FILE__).'/../../model/Author.php');
 
-    > DODAWANIE PODRÓŻY
-    > DODAWANIE AUTORÓW
-    > DODAWANIE ZDJĘĆ
-?>
-// ADDING AUTHORS
-            for ($i = 0; $i <= sizeof($authorsArray); $i++) {
-                $id_author = $authorsArray[$i];
-                if(sizeof(Authors::getAuthor($id)) > 0) {
-                    // ADDING AUTHOR
+    header('Access-Control-Allow-Origin: *');
+    header('Content-Type: application/json');
+
+    function checkIsSet($variable) {
+        if(isset($_REQUEST[$variable])) {
+            return $_REQUEST[$variable];
+        } else {
+            echo json_encode(array(
+                'success' => false,
+                'message' => 'POST ' . $variable . ' is not set'
+            ));
+            return null;
+        }
+    }
+
+    function arrayContainsNull($array) {
+        foreach ($array as &$value) {
+            if($value == null) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $isLogged = Login::isLogged();
+        if($isLogged == true) {
+
+            $data = array(
+                'title' => checkIsSet('title'),
+                'location' => checkIsSet('location'),
+                'date' => checkIsSet('date'),
+                'hour' => checkIsSet('hour'),
+                'id_meetingpoint' => checkIsSet('id_meetingpoint'),
+                'latitude' => checkIsSet('latitude'),
+                'longitude' => checkIsSet('longitude'),
+                'description' => checkIsSet('description')
+            )
+
+            if(!arrayContainsNull($data)) {
+                $database = new Database();
+                $conn = $database->connect();
+
+                $result = Travels::postTravel($conn, $data['title'], $data['location'], $data['date'], $data['hour'], $data['id_meetingpoint'], $data['latitude'], $data['longitude'], $data['description']);
+        
+                if($result == true) {
+                    echo json_encode(array(
+                        'success' => true,
+                        'message' => 'OK'
+                    ));
                 } else {
-                    return "Author ". $id_author . " doesn't exist in database";
+                    echo json_encode(array(
+                        'success' => false,
+                        'message' => $result
+                    ));
                 }
             }
+        } else {
+            echo json_encode(array(
+                'success' => false,
+                'message' => $isLogged
+            ));
+        }
+    } else {
+        echo json_encode(array(
+            'success' => false,
+            'message' => 'Use POST method'
+        ));
+    }
+?>

@@ -1,7 +1,7 @@
 <?
     include(dirname(__FILE__).'/../../class/Login.php');
     include(dirname(__FILE__).'/../../class/Database.php');
-    include(dirname(__FILE__).'/../../model/Author.php');
+    include(dirname(__FILE__).'/../../model/Authors.php');
 
     header('Access-Control-Allow-Origin: *');
     header('Content-Type: application/json');
