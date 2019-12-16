@@ -9,6 +9,41 @@
         );
     */
     class Photos {
+
+        private static function saveImage($file) {
+            $target = dirname(__FILE__, 1) . '/upload/' . basename($file["name"]);
+            $filetype = strtolower(pathinfo($target, PATHINFO_EXTENSION));
+
+            $data = file_get_contents($file["tmp_name"]);
+            $base64 = 'data:image/' . $filetype . ';base64,' . base64_encode($data);
+
+            $file_handler = fopen($target . '.php', "w");
+
+            $text = "<?php' . '\n";
+            $text .= "include(dirname(__FILE__).'/../class/Login.php');" . "\n";
+            $text .= "header('Access-Control-Allow-Origin: *');" . "\n";
+            $text .= "header('Content-Type: application/json');" . "\n";
+            $text .= "\$result_logged = Login::isLogged();" . "\n";
+            $text .= "if(\$result_logged['success'] == true) {" . "\n";
+            $text .= "    echo json_encode(array(" . "\n";
+            $text .= "        'success' => true," . "\n";
+            $text .= "        'message' => '" . basename($file["name"]) . ".php'," . "\n";
+            $text .= "        'data' => \" . $base64 .\"" . "\n";
+            $text .= "    ));" . "\n";
+            $text .= "} else {" . "\n";
+            $text .= "    echo json_encode(\$result_logged);" . "\n";
+            $text .= "}" . "\n";
+            $text .= "?>" . "\n";
+
+            fwrite($file_handler, $text);
+            fclose($file_handler);
+
+            return array(
+                "success" => true,
+                "message" => 'File saved at ' . $target . '.php'
+            );
+        }
+
         public static function uploadPhoto($file) {
             $target = dirname(__FILE__, 1) . '/upload/' . basename($file["name"]);
             $filetype = strtolower(pathinfo($target, PATHINFO_EXTENSION));
@@ -28,7 +63,7 @@
             }
 
             // Check if file already exists
-            if (file_exists($target)) {
+            if (file_exists($target . '.php')) {
                 $message .= "Sorry, file already exists. ";
                 $ok = false;
             }
@@ -52,14 +87,16 @@
             }
             // if everything is ok, try to upload file
             else {
-                if (move_uploaded_file($file["tmp_name"], $target)) {
-                    $message .= "The file ". basename( $file["name"]). " has been uploaded. ";
+                
+                $result = Photos::saveImage($file);
+                
+                if($result['success'] == true) {
                     return array(
                         "success" => true,
-                        "message" => $message
+                        'message' => $message . $result['message']
                     );
                 } else {
-                    $message .= "Sorry, there was an error uploading your file. ";
+                    $message .= "Sorry, there was an error uploading your file. " . $result['message'];
                 }
             }
 
@@ -72,7 +109,10 @@
         public static function postPhoto($conn, $id_travel, $filename) {
             // CHECKING IF TRAVEL EXIST
             if(sizeof(Travels::getTravel($conn, $id_tarvel)) < 1) {
-                return "Travel ". $id_travel . " doesn't exist in database";
+                return array(
+                    'success' => false,
+                    'message' => "Travel ". $id_travel . " doesn't exist in database"
+                );
             }
 
             $query = 'INSERT INTO Photos (id_travel, filename) VALUES ('
@@ -82,7 +122,10 @@
             $statement = $conn->prepare($query);
             $statement->execute();
 
-            return true;
+            return array(
+                'success' => true,
+                'message' => 'OK'
+            );
         }
     }
  ?>
