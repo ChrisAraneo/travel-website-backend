@@ -80,7 +80,10 @@
         public static function postTravel($conn, $title, $location, $date, $hour, $id_meetingpoint, $latitude, $longitude, $description) {
             // CHECKING IF MEETINGPOINT EXIST
             if(sizeof(MeetingPoints::getMeetingPoint($conn, $id_meetingpoint)) < 1) {
-                return "Meeting point ". $id_meetingpoint . " doesn't exist in database";
+                return array(
+                    'success' => false,
+                    'message' => "Meeting point ". $id_meetingpoint . " doesn't exist in database"
+                );
             }
 
             // ADDING TRAVEL TO DATABASE
@@ -97,7 +100,10 @@
             $statement = $conn->prepare($query);
             $statement->execute();
 
-            return true;
+            return array(
+                'success' => true,
+                'message' => 'OK'
+            );
         }
     }
 ?>
