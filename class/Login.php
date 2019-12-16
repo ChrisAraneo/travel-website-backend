@@ -21,44 +21,82 @@
             Login::startSession();
 
             $result = Users::getUser($conn, $username);
-            $row = $result[0];
-            $correct_hash = $row['password'];
 
-            if(password_verify($password, $correct_hash)) {
-                $_SESSION['login'] == $username;
-                return true;
+            if(empty($result)) {
+                return array(
+                    'success' => false,
+                    'message' => 'User doesn\'t exist'
+                );
             } else {
-                Login::logoutUser();
-                return false;
+                $row = $result[0];
+                $correct_hash = $row['password'];
+    
+                if(password_verify($password, $correct_hash)) {
+                    $_SESSION['login'] == $username;
+                    return array(
+                        'success' => true,
+                        'message' => 'Successfully logged in'
+                    );
+                } else {
+                    Login::logoutUser();
+                    return array(
+                        'success' => false,
+                        'message' => 'Incorrect password'
+                    );
+                }
             }
         }
 
         public static function logoutUser() {
             if (session_status() != PHP_SESSION_NONE) {
                 Login::destroySession();
-                return 'Logged out';
+                return array(
+                    'success' => true,
+                    'message' => 'Successfully logged out'
+                );
             } else {
-                return 'You are already logged out';
+                return array(
+                    'success' => true,
+                    'message' => 'You are already logged out'
+                );
             }
         }
 
         public static function isLogged() {
             if (session_status() == PHP_SESSION_NONE) {
-                return "You need to be logged in. Enable cookies - can't provide session";
+                return array(
+                    'success' => false,
+                    'message' => 'You need to be logged in. Enable cookies - can\'t provide session'
+                );
             } else if($_SESSION['login'] != false) {
-                return true;
+                return array(
+                    'success' => true,
+                    'message' => 'You are logged in'
+                );
             } else {
-                return "You are not logged in";
+                return array(
+                    'success' => false,
+                    'message' => 'You are not logged in'
+                );
             }
         }
 
         public static function isLoggedAsAdmin() {
             if (session_status() == PHP_SESSION_NONE) {
-                return false;
+                return array(
+                    'success' => false,
+                    'message' => 'You need to be logged in. Enable cookies - can\'t provide session'
+                );
             } else if($_SESSION['login'] == 'admin') {
-                return true;
+                return array(
+                    'success' => true,
+                    'message' => 'You are logged in as admin'
+                );
             }
-            return false;
+            return array(
+                'success' => false,
+                'message' => 'You are not logged in as admin'
+            );
         }
     }
 ?>
