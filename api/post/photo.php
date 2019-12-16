@@ -7,35 +7,21 @@
     header('Content-Type: application/json');
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $isLogged = Login::isLogged();
-        if($isLogged == true) {
+        $result_logged = Login::isLogged();
+        if($result_logged['success'] == true) {
             if(isset($_FILES['file']) && isset($_REQUEST['id_travel'])) {
                 $id_travel = $_REQUEST['id_travel'];
-                $filename = $_FILES['file']['name'];
+                $filename = $_FILES['file']['name'] . '.php';
                 $result = Photos::uploadPhoto($_FILES['file']);
                 
                 if($result['success'] == true) {
                     $database = new Database();
                     $conn = $database->connect();
                     
-                    $photoResult = Photos::postPhoto($conn, $id_travel, $filename);
-
-                    if($photoResult == true) {
-                        echo json_encode(array(
-                            'success' => true,
-                            'message' => "OK"
-                        ));
-                    } else {
-                        echo json_encode(array(
-                            'success' => false,
-                            'message' => $photoResult
-                        ));
-                    }
+                    $result_photo = Photos::postPhoto($conn, $id_travel, $filename);
+                    echo json_encode($result_photo);
                 } else {
-                    echo json_encode(array(
-                        'success' => false,
-                        'message' => $result['message']
-                    ));
+                    echo json_encode($result);
                 }
             } else {
                 echo json_encode(array(
@@ -44,10 +30,7 @@
                 ));
             }
         } else {
-            echo json_encode(array(
-                'success' => false,
-                'message' => $isLogged
-            ));
+            echo json_encode($result_logged);
         }
     } else {
         echo json_encode(array(

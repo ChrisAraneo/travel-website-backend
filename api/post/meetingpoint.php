@@ -7,8 +7,8 @@
     header('Content-Type: application/json');
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $isLogged = Login::isLogged();
-        if($isLogged == true) {
+        $result_logged = Login::isLogged();
+        if($result_logged['success'] == true) {
             if(isset($_REQUEST['name']) && isset($_REQUEST['address'])) {
                 $name = $_REQUEST['name'];
                 $address = $_REQUEST['address'];
@@ -16,12 +16,8 @@
                 $database = new Database();
                 $conn = $database->connect();
         
-                MeetingPoints::postMeetingPoint($conn, $name, $address);
-        
-                echo json_encode(array(
-                    'success' => true,
-                    'message' => 'OK'
-                ));
+                $result = MeetingPoints::postMeetingPoint($conn, $name, $address);
+                echo json_encode($result);
             } else {
                 echo json_encode(array(
                     'success' => false,
@@ -29,10 +25,7 @@
                 ));
             }
         } else {
-            echo json_encode(array(
-                'success' => false,
-                'message' => $isLogged
-            ));
+            echo json_encode($result_logged);
         }
     } else {
         echo json_encode(array(

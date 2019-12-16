@@ -28,8 +28,8 @@
     }
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $isLogged = Login::isLogged();
-        if($isLogged == true) {
+        $result_login = Login::isLogged();
+        if($result_login['success'] == true) {
 
             $data = array(
                 'title' => checkIsSet('title'),
@@ -47,24 +47,10 @@
                 $conn = $database->connect();
 
                 $result = Travels::postTravel($conn, $data['title'], $data['location'], $data['date'], $data['hour'], $data['id_meetingpoint'], $data['latitude'], $data['longitude'], $data['description']);
-        
-                if($result == true) {
-                    echo json_encode(array(
-                        'success' => true,
-                        'message' => 'OK'
-                    ));
-                } else {
-                    echo json_encode(array(
-                        'success' => false,
-                        'message' => $result
-                    ));
-                }
+                echo json_encode($result);
             }
         } else {
-            echo json_encode(array(
-                'success' => false,
-                'message' => $isLogged
-            ));
+            echo json_encode($result_login);
         }
     } else {
         echo json_encode(array(

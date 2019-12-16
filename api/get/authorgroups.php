@@ -1,7 +1,7 @@
 <?
     include(dirname(__FILE__).'/../../class/Login.php');
     include(dirname(__FILE__).'/../../class/Database.php');
-    include(dirname(__FILE__).'/../../model/Authors.php');
+    include(dirname(__FILE__).'/../../model/AuthorGroups.php');
 
     header('Access-Control-Allow-Origin: *');
     header('Content-Type: application/json');
@@ -15,7 +15,7 @@
             echo json_encode(array(
                 'success' => true,
                 'message' => 'OK',
-                'data' => Authors::getAuthors($conn)
+                'data' => AuthorGroups::getAuthorGroups($conn)
             ));
         } else {
             echo json_encode($result_logged);

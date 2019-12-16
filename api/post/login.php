@@ -13,17 +13,13 @@
             $database = new Database();
             $conn = $database->connect();
     
-            Login::logoutUser();
-            if(Login::loginUser($conn, $username, $password) == true) {
-                echo json_encode(array(
-                    'success' => true,
-                    'message' => 'Successfully logged in'
-                ));
+            $result_logout = Login::logoutUser();
+            
+            if($result_logout['success'] == true) {
+                $result_login = Login::loginUser($conn, $username, $password);
+                echo json_encode($result_login);
             } else {
-                echo json_encode(array(
-                    'success' => false,
-                    'message' => 'Wrong login credentials'
-                ));
+                echo json_encode($result_logout);
             }
         } else {
             echo json_encode(array(

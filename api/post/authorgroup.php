@@ -7,8 +7,8 @@
     header('Content-Type: application/json');
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $isLogged = Login::isLogged();
-        if($isLogged == true) {
+        $result_logged = Login::isLogged();
+        if($result_logged['success'] == true) {
             if(isset($_REQUEST['id_author']) && isset($_REQUEST['id_travel'])) {
                 $id_author = $_REQUEST['id_author'];
                 $id_travel = $_REQUEST['id_travel'];
@@ -17,18 +17,7 @@
                 $conn = $database->connect();
         
                 $result = AuthorGroups::postAuthorToGroup($conn, $id_author, $id_travel);
-        
-                if($result == true) {
-                    echo json_encode(array(
-                    'success' => true,
-                    'message' => 'OK'
-                ));
-                } else {
-                    echo json_encode(array(
-                        'success' => false,
-                        'message' => $result
-                    ));
-                }
+                echo json_encode($result);
             } else {
                 echo json_encode(array(
                     'success' => false,
@@ -36,10 +25,7 @@
                 ));
             }
         } else {
-            echo json_encode(array(
-                'success' => false,
-                'message' => $isLogged
-            ));
+            echo json_encode($result_logged);
         }
     } else {
         echo json_encode(array(

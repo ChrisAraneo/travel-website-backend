@@ -7,8 +7,8 @@
     header('Content-Type: application/json');
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $isLogged = Login::isLogged();
-        if($isLogged == true) {
+        $result_logged = Login::isLogged();
+        if($result_logged['success'] == true) {
             if(isset($_REQUEST['firstname']) && isset($_REQUEST['lastname'])) {
                 $firstname = $_REQUEST['firstname'];
                 $lastname = $_REQUEST['lastname'];
@@ -16,12 +16,8 @@
                 $database = new Database();
                 $conn = $database->connect();
         
-                Authors::postAuthor($conn, $firstname, $lastname);
-        
-                echo json_encode(array(
-                    'success' => true,
-                    'message' => 'OK'
-                ));
+                $result = Authors::postAuthor($conn, $firstname, $lastname);
+                echo json_encode($result);
             } else {
                 echo json_encode(array(
                     'success' => false,
@@ -29,10 +25,7 @@
                 ));
             }
         } else {
-            echo json_encode(array(
-                'success' => false,
-                'message' => $isLogged
-            ));
+            echo json_encode($result_logged);
         }
     } else {
         echo json_encode(array(

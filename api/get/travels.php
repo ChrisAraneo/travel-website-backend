@@ -7,21 +7,18 @@
     header('Content-Type: application/json');
 
     if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-        $isLogged = Login::isLogged();
-        if($isLogged == true) {
+        $result_logged = Login::isLogged();
+        if($result_logged['success'] == true) {
             $database = new Database();
             $conn = $database->connect();
 
             echo json_encode(array(
                 'success' => true,
-                'message' => '',
+                'message' => 'OK',
                 'data' => Travels::getTravels($conn)
             ));
         } else {
-            echo json_encode(array(
-                'success' => false,
-                'message' => $isLogged
-            ));
+            echo json_encode($result_logged);
         }
     } else {
         echo json_encode(array(

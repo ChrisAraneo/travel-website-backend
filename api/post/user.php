@@ -13,12 +13,9 @@
             $database = new Database();
             $conn = $database->connect();
     
-            Users::postUser($conn, $username, $password);
+            $result = Users::postUser($conn, $username, $password);
     
-            echo json_encode(array(
-                'success' => true,
-                'message' => 'OK'
-            ));
+            echo json_encode($result);
         } else {
             echo json_encode(array(
                 'success' => false,
