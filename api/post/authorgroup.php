@@ -4,14 +4,15 @@
     include(dirname(__FILE__).'/../../model/AuthorGroups.php');
 
     header('Access-Control-Allow-Origin: *');
+    header('Access-Control-Allow-Credentials: true');
     header('Content-Type: application/json');
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $result_logged = Login::isLogged();
+        $result_logged = Login::isLoggedAsAdmin();
         if($result_logged['success'] == true) {
-            if(isset($_REQUEST['id_author']) && isset($_REQUEST['id_travel'])) {
-                $id_author = $_REQUEST['id_author'];
-                $id_travel = $_REQUEST['id_travel'];
+            if(isset($_POST['id_author']) && isset($_POST['id_travel'])) {
+                $id_author = $_POST['id_author'];
+                $id_travel = $_POST['id_travel'];
         
                 $database = new Database();
                 $conn = $database->connect();

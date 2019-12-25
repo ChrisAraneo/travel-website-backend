@@ -4,13 +4,14 @@
     include(dirname(__FILE__).'/../../model/Photos.php');
 
     header('Access-Control-Allow-Origin: *');
+    header('Access-Control-Allow-Credentials: true');
     header('Content-Type: application/json');
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $result_logged = Login::isLogged();
+        $result_logged = Login::isLoggedAsAdmin();
         if($result_logged['success'] == true) {
-            if(isset($_FILES['file']) && isset($_REQUEST['id_travel'])) {
-                $id_travel = $_REQUEST['id_travel'];
+            if(isset($_FILES['file']) && isset($_POST['id_travel'])) {
+                $id_travel = $_POST['id_travel'];
                 $filename = $_FILES['file']['name'] . '.php';
                 $result = Photos::uploadPhoto($_FILES['file']);
                 
@@ -26,7 +27,7 @@
             } else {
                 echo json_encode(array(
                     'success' => false,
-                    'message' => 'Make sure FILES file and REQUEST id_travel are set'
+                    'message' => 'Make sure FILES file and POST id_travel are set'
                 ));
             }
         } else {

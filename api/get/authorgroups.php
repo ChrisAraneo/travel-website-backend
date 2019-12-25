@@ -4,6 +4,7 @@
     include(dirname(__FILE__).'/../../model/AuthorGroups.php');
 
     header('Access-Control-Allow-Origin: *');
+    header('Access-Control-Allow-Credentials: true');
     header('Content-Type: application/json');
 
     if ($_SERVER['REQUEST_METHOD'] === 'GET') {

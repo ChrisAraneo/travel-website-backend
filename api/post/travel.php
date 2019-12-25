@@ -4,11 +4,12 @@
     include(dirname(__FILE__).'/../../model/Author.php');
 
     header('Access-Control-Allow-Origin: *');
+    header('Access-Control-Allow-Credentials: true');
     header('Content-Type: application/json');
 
     function checkIsSet($variable) {
-        if(isset($_REQUEST[$variable])) {
-            return $_REQUEST[$variable];
+        if(isset($_POST[$variable])) {
+            return $_POST[$variable];
         } else {
             echo json_encode(array(
                 'success' => false,
@@ -28,7 +29,7 @@
     }
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $result_login = Login::isLogged();
+        $result_login = Login::isLoggedAsAdmin();
         if($result_login['success'] == true) {
 
             $data = array(

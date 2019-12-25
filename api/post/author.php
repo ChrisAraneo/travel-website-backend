@@ -4,14 +4,15 @@
     include(dirname(__FILE__).'/../../model/Authors.php');
 
     header('Access-Control-Allow-Origin: *');
+    header('Access-Control-Allow-Credentials: true');
     header('Content-Type: application/json');
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $result_logged = Login::isLogged();
+        $result_logged = Login::isLoggedAsAdmin();
         if($result_logged['success'] == true) {
-            if(isset($_REQUEST['firstname']) && isset($_REQUEST['lastname'])) {
-                $firstname = $_REQUEST['firstname'];
-                $lastname = $_REQUEST['lastname'];
+            if(isset($_POST['firstname']) && isset($_POST['lastname'])) {
+                $firstname = $_POST['firstname'];
+                $lastname = $_POST['lastname'];
         
                 $database = new Database();
                 $conn = $database->connect();

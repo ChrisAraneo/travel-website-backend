@@ -4,14 +4,15 @@
     include(dirname(__FILE__).'/../../model/MeetingPoints.php');
 
     header('Access-Control-Allow-Origin: *');
+    header('Access-Control-Allow-Credentials: true');
     header('Content-Type: application/json');
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $result_logged = Login::isLogged();
+        $result_logged = Login::isLoggedAsAdmin();
         if($result_logged['success'] == true) {
-            if(isset($_REQUEST['name']) && isset($_REQUEST['address'])) {
-                $name = $_REQUEST['name'];
-                $address = $_REQUEST['address'];
+            if(isset($_POST['name']) && isset($_POST['address'])) {
+                $name = $_POST['name'];
+                $address = $_POST['address'];
         
                 $database = new Database();
                 $conn = $database->connect();
