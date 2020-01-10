@@ -2,9 +2,13 @@
     class Config {
         public $DB_HOST = 'host';
         public $DB_DBNAME = 'dbname';
-        public $DB_USERNAME = 'username';
-        public $DB_PASSWORD = 'password';
-    
-        public $SITE_PASSWORD = '123456';
+        public $DB_USERNAME = 'admin';
+        public $DB_PASSWORD = 'pass';
+        
+        public $KEY = "example_key";
+        public $ISSUER = "http://example.org";
+        public $AUDIENCE = "http://example.com";
+        public $ISSUED_AT = 1356999524;
+        public $NOT_BEFORE = 1357000000;
     }
 ?>
