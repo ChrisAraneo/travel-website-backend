@@ -1,25 +1,15 @@
 <?
     include(dirname(__FILE__).'/../model/Users.php');
+    include(dirname(__FILE__).'/../secure/config.php');
+
+    include_once(dirname(__FILE__).'/../vendor/firebase/php-jwt/src/BeforeValidException.php');
+    include_once(dirname(__FILE__).'/../vendor/firebase/php-jwt/src/ExpiredException.php');
+    include_once(dirname(__FILE__).'/../vendor/firebase/php-jwt/src/SignatureInvalidException.php');
+    include_once(dirname(__FILE__).'/../vendor/firebase/php-jwt/src/JWT.php');
 
     class Login {
 
-        private static function startSession() {
-            if (session_status() != PHP_SESSION_ACTIVE) {
-                session_start();
-                $_SESSION['login'] = false;
-            }
-        }
-
-        private static function destroySession() {
-            if (session_status() == PHP_SESSION_ACTIVE) {
-                session_unset();
-                session_destroy();
-            }
-        }
-
         public static function loginUser($conn, $username, $password) {
-            Login::startSession();
-
             $result = Users::getUser($conn, $username);
 
             if(empty($result)) {
@@ -32,10 +22,23 @@
                 $correct_hash = $row['password'];
     
                 if(password_verify($password, $correct_hash)) {
-                    $_SESSION['login'] = $username;
+                    $config = new Config();
+
+                    $token = array(
+                        "iss" => $config->ISSUED,
+                        "aud" => $config->AUDIENCE,
+                        "iat" => $config->ISSUED_AT,
+                        "nbf" => $config->NOT_BEFORE,
+                        "data" => array(
+                            "username" => $username
+                        )
+                    );
+                    $jwt = JWT::encode($token, $key);
+
                     return array(
                         'success' => true,
-                        'message' => 'Successfully logged in'
+                        'message' => 'Successfully logged in',
+                        'data' => $jwt
                     );
                 } else {
                     Login::logoutUser();

@@ -56,7 +56,7 @@
             $statement = $conn->prepare($query);
             $statement->execute();
 
-            return return array(
+            return array(
                 'success' => true,
                 'message' => 'OK'
             );

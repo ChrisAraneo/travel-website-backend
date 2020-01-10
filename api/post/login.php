@@ -1,4 +1,4 @@
-<?
+<?php
     include(dirname(__FILE__).'/../../class/Login.php');
     include(dirname(__FILE__).'/../../class/Database.php');
 
