@@ -1,5 +1,5 @@
 <?
-    include(dirname(__FILE__).'/../secure/config.php');
+    include_once(dirname(__FILE__).'/../secure/config.php');
 
     class Database {
         private $host = null;

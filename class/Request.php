@@ -1,7 +1,7 @@
 <?php
 
-    include(dirname(__FILE__).'/Database.php');
-    include(dirname(__FILE__).'/Login.php');
+    include_once(dirname(__FILE__).'/Database.php');
+    include_once(dirname(__FILE__).'/Login.php');
 
     class Request {
 
@@ -42,7 +42,7 @@
                 } else {
                     echo json_encode(array(
                         'success' => false,
-                        'message' => 'Include token in GET token'
+                        'message' => 'include_once token in GET token'
                     ));
                     return false;
                 }
@@ -56,6 +56,22 @@
         }
 
         public static function post() {
+            header('Access-Control-Allow-Origin: *');
+            header('Access-Control-Allow-Credentials: true');
+            header('Content-Type: application/json');
+
+            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                return true;
+            } else {
+                echo json_encode(array(
+                    'success' => false,
+                    'message' => 'Use POST method'
+                ));
+                return false;
+            }
+        }
+
+        public static function postUser() {
             header('Access-Control-Allow-Origin: *');
             header('Access-Control-Allow-Credentials: true');
             header('Content-Type: application/json');
@@ -76,7 +92,7 @@
                 } else {
                     echo json_encode(array(
                         'success' => false,
-                        'message' => 'Include token in POST token'
+                        'message' => 'include_once token in POST token'
                     ));
                     return false;
                 }
@@ -104,6 +120,12 @@
                     if($result_logged['success'] == true) {
                         if($result_logged['username'] == "admin") {
                             return true;
+                        } else {
+                            echo json_encode(array(
+                                'success' => false,
+                                'message' => 'You must be logged as admin'
+                            ));
+                            return false;
                         }
                     } else {
                         echo json_encode($result_logged);

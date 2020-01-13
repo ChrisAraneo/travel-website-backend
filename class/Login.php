@@ -1,10 +1,10 @@
 <?
-    include(dirname(__FILE__).'/../model/Users.php');
+    include_once(dirname(__FILE__).'/../model/Users.php');
     
-    include(dirname(__FILE__).'/../vendor/firebase/php-jwt/src/BeforeValidException.php');
-    include(dirname(__FILE__).'/../vendor/firebase/php-jwt/src/ExpiredException.php');
-    include(dirname(__FILE__).'/../vendor/firebase/php-jwt/src/SignatureInvalidException.php');
-    include(dirname(__FILE__).'/../vendor/firebase/php-jwt/src/JWT.php');
+    include_once(dirname(__FILE__).'/../vendor/firebase/php-jwt/src/BeforeValidException.php');
+    include_once(dirname(__FILE__).'/../vendor/firebase/php-jwt/src/ExpiredException.php');
+    include_once(dirname(__FILE__).'/../vendor/firebase/php-jwt/src/SignatureInvalidException.php');
+    include_once(dirname(__FILE__).'/../vendor/firebase/php-jwt/src/JWT.php');
 
     use \Firebase\JWT\JWT;
 
