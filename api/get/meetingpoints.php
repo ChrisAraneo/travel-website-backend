@@ -1,7 +1,7 @@
 <?
-    include(dirname(__FILE__).'/../../class/Login.php');
-    include(dirname(__FILE__).'/../../class/Database.php');
-    include(dirname(__FILE__).'/../../model/MeetingPoints.php');
+    include_once(dirname(__FILE__).'/../../class/Login.php');
+    include_once(dirname(__FILE__).'/../../class/Database.php');
+    include_once(dirname(__FILE__).'/../../model/MeetingPoints.php');
 
     if(Request::getUser() == true) {
         $database = new Database();

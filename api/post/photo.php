@@ -1,7 +1,7 @@
 <?
-    include(dirname(__FILE__).'/../../class/Login.php');
-    include(dirname(__FILE__).'/../../class/Database.php');
-    include(dirname(__FILE__).'/../../model/Photos.php');
+    include_once(dirname(__FILE__).'/../../class/Login.php');
+    include_once(dirname(__FILE__).'/../../class/Database.php');
+    include_once(dirname(__FILE__).'/../../model/Photos.php');
 
     if(Request::postAdmin() == true) {
         if(isset($_FILES['file']) && isset($_POST['id_travel'])) {

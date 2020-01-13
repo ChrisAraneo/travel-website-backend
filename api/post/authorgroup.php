@@ -1,8 +1,8 @@
 <?
-    include(dirname(__FILE__).'/../../class/Login.php');
-    include(dirname(__FILE__).'/../../class/Database.php');
-    include(dirname(__FILE__).'/../../class/Request.php');
-    include(dirname(__FILE__).'/../../model/AuthorGroups.php');
+    include_once(dirname(__FILE__).'/../../class/Login.php');
+    include_once(dirname(__FILE__).'/../../class/Database.php');
+    include_once(dirname(__FILE__).'/../../class/Request.php');
+    include_once(dirname(__FILE__).'/../../model/AuthorGroups.php');
 
     if(Request::postAdmin() == true) {
         if(isset($_POST['id_author']) && isset($_POST['id_travel'])) {

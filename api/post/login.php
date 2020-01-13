@@ -1,7 +1,7 @@
 <?php
-    include(dirname(__FILE__).'/../../class/Login.php');
-    include(dirname(__FILE__).'/../../class/Database.php');
-    include(dirname(__FILE__).'/../../class/Request.php');
+    include_once(dirname(__FILE__).'/../../class/Login.php');
+    include_once(dirname(__FILE__).'/../../class/Database.php');
+    include_once(dirname(__FILE__).'/../../class/Request.php');
 
     if(Request::post() == true) {
         if(isset($_POST['username']) && isset($_POST['password'])) {
