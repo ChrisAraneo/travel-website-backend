@@ -20,7 +20,7 @@
             $file_handler = fopen($target . '.php', "w");
 
             $text = "<?php' . '\n";
-            $text .= "include(dirname(__FILE__).'/../class/Login.php');" . "\n";
+            $text .= Include(dirname(__FILE__).'/../class/Login.php');" . "\n";
             $text .= "header('Access-Control-Allow-Origin: *');" . "\n";
             $text .= "header('Content-Type: application/json');" . "\n";
             $text .= "\$result_logged = Login::isLogged();" . "\n";

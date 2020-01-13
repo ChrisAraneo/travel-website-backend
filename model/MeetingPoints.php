@@ -20,7 +20,7 @@
                 while($row = $statement->fetch(PDO::FETCH_ASSOC)) {
                     extract($row);
                     $item = array(
-                        'id_meetingpoint' => $meetingpoint,
+                        'id_meetingpoint' => $id_meetingpoint,
                         'name' => $name,
                         'address' => $address
                     );

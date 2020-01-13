@@ -1,6 +1,6 @@
 <?
-    include(dirname(__FILE__).'/Authors.php');
-    include(dirname(__FILE__).'/MeetingPoints.php');
+    include_once(dirname(__FILE__).'/Authors.php');
+    include_once(dirname(__FILE__).'/MeetingPoints.php');
 
     /*
         CREATE TABLE Travels (
@@ -92,7 +92,7 @@
             . '\'' . $location . '\', '
             . '\'' . $date . '\', '
             . '\'' . $hour . '\', '
-            . $meetingpoint . ', '
+            . $id_meetingpoint . ', '
             . $latitude . ', '
             . $longitude . ', '
             . '\'' . $description . '\');';

@@ -33,18 +33,27 @@
         }
 
         public static function postUser($conn, $username, $password) {
-            $hash = password_hash($password, PASSWORD_DEFAULT);
+            $result = Users::getUser($conn, $username);
 
-            $query = 'INSERT INTO Users (username, password) VALUES ('
-            . '\'' . $username . '\', '
-            . '\'' . $hash . '\');';
+            if(empty($result)) {
+                $hash = password_hash($password, PASSWORD_DEFAULT);
 
-            $statement = $conn->prepare($query);
-            $statement->execute();
-
+                $query = 'INSERT INTO Users (username, password) VALUES ('
+                . '\'' . $username . '\', '
+                . '\'' . $hash . '\');';
+    
+                $statement = $conn->prepare($query);
+                $statement->execute();
+    
+                return array(
+                    'success' => true,
+                    'message' => 'OK'
+                );
+            }
+            
             return array(
-                'success' => true,
-                'message' => 'OK'
+                'success' => false,
+                'message' => 'This username already exist'
             );
         }
     }
