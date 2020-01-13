@@ -1,11 +1,9 @@
 <?
+    include(dirname(__FILE__).'/../../class/Request.php');
     include(dirname(__FILE__).'/../../class/Login.php');
     include(dirname(__FILE__).'/../../class/Database.php');
-    include(dirname(__FILE__).'/../../model/Author.php');
+    include(dirname(__FILE__).'/../../model/Travels.php');
 
-    header('Access-Control-Allow-Origin: *');
-    header('Access-Control-Allow-Credentials: true');
-    header('Content-Type: application/json');
 
     function checkIsSet($variable) {
         if(isset($_POST[$variable])) {
@@ -18,7 +16,7 @@
             return null;
         }
     }
-
+    
     function arrayContainsNull($array) {
         foreach ($array as &$value) {
             if($value == null) {
@@ -28,35 +26,24 @@
         return false;
     }
 
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $result_login = Login::isLoggedAsAdmin();
-        if($result_login['success'] == true) {
+    if(Request::postAdmin() == true) {
+        $data = array(
+            'title' => checkIsSet('title'),
+            'location' => checkIsSet('location'),
+            'date' => checkIsSet('date'),
+            'hour' => checkIsSet('hour'),
+            'id_meetingpoint' => checkIsSet('id_meetingpoint'),
+            'latitude' => checkIsSet('latitude'),
+            'longitude' => checkIsSet('longitude'),
+            'description' => checkIsSet('description')
+        );
 
-            $data = array(
-                'title' => checkIsSet('title'),
-                'location' => checkIsSet('location'),
-                'date' => checkIsSet('date'),
-                'hour' => checkIsSet('hour'),
-                'id_meetingpoint' => checkIsSet('id_meetingpoint'),
-                'latitude' => checkIsSet('latitude'),
-                'longitude' => checkIsSet('longitude'),
-                'description' => checkIsSet('description')
-            )
+        if(!arrayContainsNull($data)) {
+            $database = new Database();
+            $conn = $database->connect();
 
-            if(!arrayContainsNull($data)) {
-                $database = new Database();
-                $conn = $database->connect();
-
-                $result = Travels::postTravel($conn, $data['title'], $data['location'], $data['date'], $data['hour'], $data['id_meetingpoint'], $data['latitude'], $data['longitude'], $data['description']);
-                echo json_encode($result);
-            }
-        } else {
-            echo json_encode($result_login);
+            $result = Travels::postTravel($conn, $data['title'], $data['location'], $data['date'], $data['hour'], $data['id_meetingpoint'], $data['latitude'], $data['longitude'], $data['description']);
+            echo json_encode($result);
         }
-    } else {
-        echo json_encode(array(
-            'success' => false,
-            'message' => 'Use POST method'
-        ));
     }
 ?>
