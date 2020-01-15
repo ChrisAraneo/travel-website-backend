@@ -14,8 +14,19 @@
     class Photos {
 
         public static function saveBase64Photo($base64, $id_travel) {
+            $dirname = dirname(__FILE__).'/../upload';
+            if(!is_dir($dirname)) {
+                try {
+                    mkdir($dirname, 0755);
+                } catch (Exception $e) {
+                    return array(
+                        "success" => false,
+                        "message" => $e->getMessage()
+                    );
+                }
+            }
+
             $filename = md5($base64 . $id_travel . time());
-            
             while(file_exists($filename)) {
                 $filename = md5($base64 . $id_travel . time());
             }
