@@ -13,7 +13,7 @@
                 'success' => false,
                 'message' => 'POST ' . $variable . ' is not set'
             ));
-            return null;
+            die();
         }
     }
     
