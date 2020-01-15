@@ -42,7 +42,7 @@
                 } else {
                     echo json_encode(array(
                         'success' => false,
-                        'message' => 'include_once token in GET token'
+                        'message' => 'Include token in GET token'
                     ));
                     return false;
                 }
@@ -92,7 +92,7 @@
                 } else {
                     echo json_encode(array(
                         'success' => false,
-                        'message' => 'include_once token in POST token'
+                        'message' => 'Include token in POST token'
                     ));
                     return false;
                 }
