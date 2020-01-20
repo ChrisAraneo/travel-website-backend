@@ -106,7 +106,7 @@
             $query2 .= 'location = \'' . $location . '\' AND ';
             $query2 .= 'id_meetingpoint = ' . $id_meetingpoint . ' AND ';
             $query2 .= 'latitude = ' . $latitude. ' AND ';
-            $query2 .= 'logitude = ' . $longitude. ';';
+            $query2 .= 'longitude = ' . $longitude. ';';
 
             $statement = $conn->prepare($query2);
             $statement->execute();
