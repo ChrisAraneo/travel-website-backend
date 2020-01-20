@@ -1,4 +1,6 @@
 <?
+    include_once(dirname(__FILE__).'/Authors.php');
+    include_once(dirname(__FILE__).'/Travels.php');
     /*
         CREATE TABLE AuthorGroups (
             id_author int NOT NULL,
@@ -33,7 +35,7 @@
 
         public static function postAuthorToGroup($conn, $id_author, $id_travel) {
             // CHECKING IF TRAVEL EXIST
-            if(sizeof(Travels::getTravel($conn, $id_tarvel)) < 1) {
+            if(sizeof(Travels::getTravel($conn, $id_travel)) < 1) {
                 return array(
                     'success' => false,
                     'message' => "Travel ". $id_travel . " doesn't exist in database"

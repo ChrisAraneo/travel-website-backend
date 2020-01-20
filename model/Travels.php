@@ -100,28 +100,35 @@
             $statement = $conn->prepare($query);
             $statement->execute();
 
-            // FINDING ID OF THIS TRAVEL
-            $query2 = 'SELECT id_travel FROM Travels WHERE ';
-            $query2 .= 'title = \'' . $title . '\' AND ';
-            $query2 .= 'location = \'' . $location . '\' AND ';
-            $query2 .= 'id_meetingpoint = ' . $id_meetingpoint . ' AND ';
-            $query2 .= 'latitude = ' . $latitude. ' AND ';
-            $query2 .= 'longitude = ' . $longitude. ';';
+            $statement2 = $conn->prepare("SELECT LAST_INSERT_ID()");
+            $statement2->execute();
+            $id_travel = $statement2->fetchColumn();
 
-            $statement = $conn->prepare($query2);
-            $statement->execute();
+            // // FINDING ID OF THIS TRAVEL
+            // $query2 = 'SELECT id_travel FROM Travels WHERE ';
+            // $query2 .= 'title = \'' . $title . '\' AND ';
+            // $query2 .= 'location = \'' . $location . '\' AND ';
+            // $query2 .= 'id_meetingpoint = ' . $id_meetingpoint . ';';
 
-            $array = array();
+            // $statement2 = $conn->prepare($query2);
+            // $statement2->execute();
 
-            if($statement->rowCount() > 0) {
-                while($row = $statement->fetch(PDO::FETCH_ASSOC)) {
-                    extract($row);
-                    $item = array(
-                        'id_travel' => $id_travel
-                    );
-                    array_push($array, $item);
-                }
-            }
+            // $array = array();
+
+            // if($statement2->rowCount() > 0) {
+            //     while($row = $statement2->fetch(PDO::FETCH_ASSOC)) {
+            //         extract($row);
+            //         $item = array(
+            //             'id_travel' => $id_travel
+            //         );
+            //         array_push($array, $item);
+            //     }
+            // } else {
+            //     return array(
+            //         'success' => false,
+            //         'message' => 'Travel added but can\'t read id_travel'
+            //     );
+            // }
 
             return array(
                 'success' => true,
