@@ -100,9 +100,33 @@
             $statement = $conn->prepare($query);
             $statement->execute();
 
+            // FINDING ID OF THIS TRAVEL
+            $query2 = 'SELECT id_travel FROM Travels WHERE ';
+            $query2 .= 'title = \'' . $title . '\' AND ';
+            $query2 .= 'location = \'' . $location . '\' AND ';
+            $query2 .= 'id_meetingpoint = ' . $id_meetingpoint . ' AND ';
+            $query2 .= 'latitude = ' . $latitude. ' AND ';
+            $query2 .= 'logitude = ' . $longitude. ';';
+
+            $statement = $conn->prepare($query2);
+            $statement->execute();
+
+            $array = array();
+
+            if($statement->rowCount() > 0) {
+                while($row = $statement->fetch(PDO::FETCH_ASSOC)) {
+                    extract($row);
+                    $item = array(
+                        'id_travel' => $id_travel
+                    );
+                    array_push($array, $item);
+                }
+            }
+
             return array(
                 'success' => true,
-                'message' => 'OK'
+                'message' => 'Travel successfully added',
+                'id_travel' => $id_travel
             );
         }
     }
