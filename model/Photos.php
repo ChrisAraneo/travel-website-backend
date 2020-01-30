@@ -81,6 +81,29 @@
             );
         }
 
+        public static function getPhotos($conn) {
+            $query = 'SELECT * FROM Photos;';
+
+            $statement = $conn->prepare($query);
+            $statement->execute();
+
+            $array = array();
+
+            if($statement->rowCount() > 0) {
+                while($row = $statement->fetch(PDO::FETCH_ASSOC)) {
+                    extract($row);
+                    $item = array(
+                        'id_photo' => $id_photo,
+                        'id_travel' => $id_travel,
+                        'filename' => $filename
+                    );
+                    array_push($array, $item);
+                }
+            }
+            
+            return $array;
+        }
+
         public static function postPhoto($conn, $id_travel, $filename) {
             // CHECKING IF TRAVEL EXIST
             if(sizeof(Travels::getTravel($conn, $id_travel)) < 1) {

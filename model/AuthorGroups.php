@@ -51,7 +51,7 @@
             }
 
             // ADDING AUTHORGROUPS RECORD
-            $query = 'INSERT INTO AuthorGroups ($id_author, $id_travel) VALUES (' . $id_author . ', ' . $id_travel . ');';
+            $query = 'INSERT INTO AuthorGroups (id_author, id_travel) VALUES (' . $id_author . ', ' . $id_travel . ');';
 
             $statement = $conn->prepare($query);
             $statement->execute();
