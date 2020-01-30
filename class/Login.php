@@ -38,7 +38,8 @@
                     return array(
                         'success' => true,
                         'message' => 'Successfully logged in',
-                        'data' => JWT::encode($payload, $config->KEY)
+                        'token' => JWT::encode($payload, $config->KEY),
+                        'username' => $username
                     );
                 } else {
                     return array(
@@ -60,8 +61,7 @@
                 http_response_code(401);
                 return array(
                     "success" => false,
-                    "message" => $e->getMessage(),
-                    "username" => null
+                    "message" => $e->getMessage()
                 );
             }
             
