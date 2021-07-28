@@ -1,4 +1,4 @@
-<?
+<?php
     /*
         CREATE TABLE Authors (
             id_author int NOT NULL AUTO_INCREMENT,

@@ -1,4 +1,4 @@
-<?
+<?php
     /*
         CREATE TABLE Users (
             id_user int NOT NULL AUTO_INCREMENT,

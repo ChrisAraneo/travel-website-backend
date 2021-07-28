@@ -1,4 +1,4 @@
-<?
+<?php
     include_once(dirname(__FILE__).'/Authors.php');
     include_once(dirname(__FILE__).'/MeetingPoints.php');
 

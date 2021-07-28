@@ -1,4 +1,4 @@
-<?  
+<?php  
     include_once(dirname(__FILE__).'/../../class/Request.php');
     include_once(dirname(__FILE__).'/../../class/Database.php');
     include_once(dirname(__FILE__).'/../../model/Users.php');

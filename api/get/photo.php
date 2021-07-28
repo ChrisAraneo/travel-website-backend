@@ -1,4 +1,4 @@
-<?
+<?php
     include_once(dirname(__FILE__).'/../../class/Request.php');
 
     if(Request::getUser() == true) {

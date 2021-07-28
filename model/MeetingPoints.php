@@ -1,4 +1,4 @@
-<?
+<?php
     /*
         CREATE TABLE MeetingPoints (
             id_meetingpoint int NOT NULL AUTO_INCREMENT,

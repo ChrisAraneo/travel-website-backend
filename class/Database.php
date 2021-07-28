@@ -1,4 +1,4 @@
-<?
+<?php
     include_once(dirname(__FILE__).'/../secure/config.php');
 
     class Database {

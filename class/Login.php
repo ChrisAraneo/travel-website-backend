@@ -1,4 +1,4 @@
-<?
+<?php
     include_once(dirname(__FILE__).'/../model/Users.php');
     
     include_once(dirname(__FILE__).'/../vendor/firebase/php-jwt/src/BeforeValidException.php');
