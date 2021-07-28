@@ -92,6 +92,16 @@ INSERT INTO `users` (`id_user`, `username`, `password`) VALUES
 (1, 'admin', '$2y$10$SPQ7X3.t7lnLM0Cdd5Z7CuILPSkNvaiRlgdyzlMos1kDvdOu.OsQS');
 
 --
+-- DEFAULT GUEST USER
+-- username: user
+-- password: qwerty123
+-- REMEMBER TO CHANGE PASSWORD AFTER SETUP
+--
+
+INSERT INTO `users` (`id_user`, `username`, `password`) VALUES
+(2, 'user', '$2y$10$zEtTcwl./YOU4/ZDyH4kb.klSctc.i4HcTYazdWn.ZuaR9Sq/qZRG');
+
+--
 -- KEYS `authorgroups`
 --
 ALTER TABLE `authorgroups`
