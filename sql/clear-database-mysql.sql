@@ -1,13 +1,16 @@
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
+/*!40101 SET NAMES utf8mb4 */;
+
+-- --------------------------------------------------------
+
 --
--- TABLE `AuthorGroups`
+-- CREATE TABLE `authorgroups`
 --
 
-CREATE TABLE `AuthorGroups` (
+CREATE TABLE `authorgroups` (
   `id_author` int(11) NOT NULL,
   `id_travel` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
@@ -15,10 +18,10 @@ CREATE TABLE `AuthorGroups` (
 -- --------------------------------------------------------
 
 --
--- TABLE `Authors`
+-- CREATE TABLE `authors`
 --
 
-CREATE TABLE `Authors` (
+CREATE TABLE `authors` (
   `id_author` int(11) NOT NULL,
   `firstname` varchar(255) COLLATE utf8mb4_polish_ci NOT NULL,
   `lastname` varchar(255) COLLATE utf8mb4_polish_ci NOT NULL
@@ -27,10 +30,10 @@ CREATE TABLE `Authors` (
 -- --------------------------------------------------------
 
 --
--- TABLE `MeetingPoints`
+-- CREATE TABLE `meetingpoints`
 --
 
-CREATE TABLE `MeetingPoints` (
+CREATE TABLE `meetingpoints` (
   `id_meetingpoint` int(11) NOT NULL,
   `name` varchar(255) COLLATE utf8mb4_polish_ci NOT NULL,
   `address` varchar(255) COLLATE utf8mb4_polish_ci DEFAULT NULL
@@ -39,10 +42,10 @@ CREATE TABLE `MeetingPoints` (
 -- --------------------------------------------------------
 
 --
--- TABLE `Photos`
+-- CREATE TABLE `photos`
 --
 
-CREATE TABLE `Photos` (
+CREATE TABLE `photos` (
   `id_photo` int(11) NOT NULL,
   `id_travel` int(11) NOT NULL,
   `filename` varchar(255) COLLATE utf8mb4_polish_ci DEFAULT NULL
@@ -51,10 +54,10 @@ CREATE TABLE `Photos` (
 -- --------------------------------------------------------
 
 --
--- TABLE `Travels`
+-- CREATE TABLE `travels`
 --
 
-CREATE TABLE `Travels` (
+CREATE TABLE `travels` (
   `id_travel` int(11) NOT NULL,
   `title` varchar(255) COLLATE utf8mb4_polish_ci NOT NULL,
   `location` varchar(255) COLLATE utf8mb4_polish_ci NOT NULL,
@@ -69,100 +72,110 @@ CREATE TABLE `Travels` (
 -- --------------------------------------------------------
 
 --
--- TABLE `Users`
+-- CREATE TABLE `users`
 --
 
-CREATE TABLE `Users` (
+CREATE TABLE `users` (
   `id_user` int(11) NOT NULL,
   `username` varchar(255) COLLATE utf8mb4_polish_ci NOT NULL,
   `password` varchar(255) COLLATE utf8mb4_polish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 
 --
--- KEYS `AuthorGroups`
+-- DEFAULT ADMIN USER
+-- username: admin
+-- password: admin123
+-- REMEMBER TO CHANGE PASSWORD AFTER SETUP
 --
-ALTER TABLE `AuthorGroups`
+
+INSERT INTO `users` (`id_user`, `username`, `password`) VALUES
+(1, 'admin', '$2y$10$SPQ7X3.t7lnLM0Cdd5Z7CuILPSkNvaiRlgdyzlMos1kDvdOu.OsQS');
+
+--
+-- KEYS `authorgroups`
+--
+ALTER TABLE `authorgroups`
   ADD PRIMARY KEY (`id_author`,`id_travel`),
   ADD KEY `id_travel` (`id_travel`);
 
 --
--- KEYS `Authors`
+-- KEYS `authors`
 --
-ALTER TABLE `Authors`
+ALTER TABLE `authors`
   ADD PRIMARY KEY (`id_author`);
 
 --
--- KEYS `MeetingPoints`
+-- KEYS `meetingpoints`
 --
-ALTER TABLE `MeetingPoints`
+ALTER TABLE `meetingpoints`
   ADD PRIMARY KEY (`id_meetingpoint`);
 
 --
--- KEYS `Photos`
+-- KEYS `photos`
 --
-ALTER TABLE `Photos`
+ALTER TABLE `photos`
   ADD PRIMARY KEY (`id_photo`),
   ADD KEY `id_travel` (`id_travel`);
 
 --
--- KEYS `Travels`
+-- KEYS `travels`
 --
-ALTER TABLE `Travels`
+ALTER TABLE `travels`
   ADD PRIMARY KEY (`id_travel`),
   ADD KEY `id_meetingpoint` (`id_meetingpoint`);
 
 --
--- KEYS `Users`
+-- KEYS `users`
 --
-ALTER TABLE `Users`
+ALTER TABLE `users`
   ADD PRIMARY KEY (`id_user`);
 
 --
--- AUTO_INCREMENT `Authors`
+-- AUTO_INCREMENT `authors`
 --
-ALTER TABLE `Authors`
+ALTER TABLE `authors`
   MODIFY `id_author` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT `MeetingPoints`
+-- AUTO_INCREMENT `meetingpoints`
 --
-ALTER TABLE `MeetingPoints`
+ALTER TABLE `meetingpoints`
   MODIFY `id_meetingpoint` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT `Photos`
+-- AUTO_INCREMENT `photos`
 --
-ALTER TABLE `Photos`
+ALTER TABLE `photos`
   MODIFY `id_photo` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT `Travels`
+-- AUTO_INCREMENT `travels`
 --
-ALTER TABLE `Travels`
+ALTER TABLE `travels`
   MODIFY `id_travel` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT `Users`
+-- AUTO_INCREMENT `users`
 --
-ALTER TABLE `Users`
-  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `users`
+  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- CONSTRAINTS `AuthorGroups`
+-- CONSTRAINTS `authorgroups`
 --
-ALTER TABLE `AuthorGroups`
-  ADD CONSTRAINT `AuthorGroups_ibfk_1` FOREIGN KEY (`id_author`) REFERENCES `Authors` (`id_author`),
-  ADD CONSTRAINT `AuthorGroups_ibfk_2` FOREIGN KEY (`id_travel`) REFERENCES `Travels` (`id_travel`);
+ALTER TABLE `authorgroups`
+  ADD CONSTRAINT `AuthorGroups_ibfk_1` FOREIGN KEY (`id_author`) REFERENCES `authors` (`id_author`),
+  ADD CONSTRAINT `AuthorGroups_ibfk_2` FOREIGN KEY (`id_travel`) REFERENCES `travels` (`id_travel`);
 
 --
--- CONSTRAINTS `Photos`
+-- CONSTRAINTS `photos`
 --
-ALTER TABLE `Photos`
-  ADD CONSTRAINT `Photos_ibfk_1` FOREIGN KEY (`id_travel`) REFERENCES `Travels` (`id_travel`);
+ALTER TABLE `photos`
+  ADD CONSTRAINT `Photos_ibfk_1` FOREIGN KEY (`id_travel`) REFERENCES `travels` (`id_travel`);
 
 --
--- CONSTRAINTS `Travels`
+-- CONSTRAINTS `travels`
 --
-ALTER TABLE `Travels`
-  ADD CONSTRAINT `Travels_ibfk_1` FOREIGN KEY (`id_meetingpoint`) REFERENCES `MeetingPoints` (`id_meetingpoint`);
+ALTER TABLE `travels`
+  ADD CONSTRAINT `Travels_ibfk_1` FOREIGN KEY (`id_meetingpoint`) REFERENCES `meetingpoints` (`id_meetingpoint`);
 COMMIT;
