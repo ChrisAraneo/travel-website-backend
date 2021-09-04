@@ -21,40 +21,6 @@
             }
         }
 
-        public static function getUser() {
-            header('Access-Control-Allow-Origin: *');
-            header('Access-Control-Allow-Credentials: true');
-            header('Content-Type: application/json');
-
-            if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-                if(isset($_GET['token'])) {
-                    $database = new Database();
-                    $conn = $database->connect();
-                    $jwt = $_GET['token'];
-
-                    $result_login = Login::isLogged($conn, $jwt);
-                    if($result_login["success"] == true) {
-                        return true;
-                    } else {
-                        echo json_encode($result_login);
-                        return false;
-                    }
-                } else {
-                    echo json_encode(array(
-                        'success' => false,
-                        'message' => 'Include token in GET token'
-                    ));
-                    return false;
-                }
-            } else {
-                echo json_encode(array(
-                    'success' => false,
-                    'message' => 'Use GET method'
-                ));
-                return false;
-            }
-        }
-
         public static function post() {
             header('Access-Control-Allow-Origin: *');
             header('Access-Control-Allow-Credentials: true');

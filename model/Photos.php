@@ -49,7 +49,7 @@
 
             $text = "<?php\n";
             $text .= "include_once(dirname(__FILE__).'/../class/Request.php');\n";
-            $text .= "if(Request::getUser() == true) {\n";
+            $text .= "if(Request::postUser() == true) {\n";
             $text .= "echo json_encode(array(\n";
             $text .= "'success' => true,\n'message' => 'OK',\n'data' => '";
             $text .= $base64;

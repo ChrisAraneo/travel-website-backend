@@ -1,7 +1,7 @@
 <?php
     include_once(dirname(__FILE__).'/../../class/Request.php');
 
-    if(Request::getUser() == true) {
+    if(Request::get() == true) {
         if(isset($_GET['filename'])) {
             $filename = $_GET['filename'];
             $path = dirname(__FILE__).'/../../upload/' . $filename . '.php';
