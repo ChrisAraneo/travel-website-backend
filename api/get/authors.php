@@ -4,7 +4,7 @@
     include_once(dirname(__FILE__).'/../../class/Database.php');
     include_once(dirname(__FILE__).'/../../model/Authors.php');
 
-    if(Request::getUser() == true) {
+    if(Request::get() == true) {
         $database = new Database();
         $conn = $database->connect();
 
